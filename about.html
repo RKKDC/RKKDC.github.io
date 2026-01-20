@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Pupkits</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a style="text-decoration: none; color: inherit;" href="index.html">
+                    <div class="logo"><i class="fas fa-paw"></i><span>PupKits</span></div>
+                </a>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Shop</a>
+                    <a href="index.html#categories">Categories</a>
+                    <a href="about.html" class="active">About</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+
+                <div class="nav-icons">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <div class="container">
+                <input type="text" placeholder="Search for pet supplies..." id="navSearchInput"
+                    oninput="debouncedSearchFromNav()" />
+                <button type="button" onclick="debouncedSearchFromNav()"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header fade-in" style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); padding: 4rem 0; text-align: center; color: white;">
+        <div class="container">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">About Pupkits</h1>
+            <p style="font-size: 1.2rem; opacity: 0.95;">Your trusted partner in pet care since 2015</p>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="about-story fade-in-up" style="padding: 5rem 0;">
+        <div class="container">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h2 class="fade-in-up" style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem; color: var(--dark-color);">Our Story</h2>
+                <div class="fade-in-up" style="text-align: center; margin-bottom: 3rem;">
+                    <div class="image-placeholder" style="width: 100%; max-width: 600px; height: 400px; margin: 0 auto; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 8rem; opacity: 0.15;">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                </div>
+                <div class="fade-in-up" style="line-height: 1.8; color: var(--gray-color); font-size: 1.1rem;">
+                    <p style="margin-bottom: 1.5rem;">
+                        Pupkits was founded in 2015 by a group of passionate pet lovers who noticed a gap in the market for high-quality, 
+                        affordable pet furniture and accessories. What started as a small online store has grown into a trusted brand serving 
+                        thousands of pet owners worldwide.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        Our journey began when our founder, Sarah Mitchell, struggled to find comfortable, stylish, and durable furniture for 
+                        her rescue dogs. She realized that many pet owners faced the same challenge – products were either too expensive, 
+                        poorly made, or lacked style. This inspired her to create Pupkits, a brand that combines quality, affordability, and design.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        Today, we work with carefully selected manufacturers who share our commitment to quality and sustainability. Every product 
+                        in our catalog is tested by real pets and their owners to ensure it meets our high standards. We believe that your pets 
+                        deserve the best, and we're here to make that accessible to everyone.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Values -->
+    <section class="mission-values fade-in-up" style="padding: 5rem 0; background: var(--light-color);">
+        <div class="container">
+            <h2 class="fade-in-up" style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--dark-color);">Our Mission & Values</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                <div class="feature-card fade-in-up" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: var(--shadow);">
+                    <i class="fas fa-heart" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Quality First</h3>
+                    <p style="color: var(--gray-color); line-height: 1.6;">
+                        We never compromise on quality. Every product is carefully selected and tested to ensure it meets the highest standards 
+                        of comfort, safety, and durability for your beloved pets.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: var(--shadow);">
+                    <i class="fas fa-leaf" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Sustainability</h3>
+                    <p style="color: var(--gray-color); line-height: 1.6;">
+                        We're committed to protecting the planet for future generations. Our products use eco-friendly materials and sustainable 
+                        manufacturing processes whenever possible.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: var(--shadow);">
+                    <i class="fas fa-users" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Community</h3>
+                    <p style="color: var(--gray-color); line-height: 1.6;">
+                        We're more than a store – we're a community of pet lovers. We support local animal shelters and rescue organizations 
+                        through donations and volunteer work.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="statistics fade-in-up" style="padding: 5rem 0;">
+        <div class="container">
+            <h2 class="fade-in-up" style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--dark-color);">Our Impact</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                <div class="stat fade-in-up" style="text-align: center;">
+                    <h3 style="font-size: 3rem; color: var(--primary-color); margin-bottom: 0.5rem;">50K+</h3>
+                    <p style="color: var(--gray-color); font-size: 1.1rem;">Happy Customers</p>
+                </div>
+                <div class="stat fade-in-up" style="text-align: center;">
+                    <h3 style="font-size: 3rem; color: var(--primary-color); margin-bottom: 0.5rem;">500+</h3>
+                    <p style="color: var(--gray-color); font-size: 1.1rem;">Premium Products</p>
+                </div>
+                <div class="stat fade-in-up" style="text-align: center;">
+                    <h3 style="font-size: 3rem; color: var(--primary-color); margin-bottom: 0.5rem;">100%</h3>
+                    <p style="color: var(--gray-color); font-size: 1.1rem;">Satisfaction Rate</p>
+                </div>
+                <div class="stat fade-in-up" style="text-align: center;">
+                    <h3 style="font-size: 3rem; color: var(--primary-color); margin-bottom: 0.5rem;">25+</h3>
+                    <p style="color: var(--gray-color); font-size: 1.1rem;">Rescue Partnerships</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team fade-in-up" style="padding: 5rem 0; background: var(--light-color);">
+        <div class="container">
+            <h2 class="fade-in-up" style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--dark-color);">Meet Our Team</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                <div class="team-member fade-in-up" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--dark-color);">Sarah Mitchell</h3>
+                    <p style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 600;">Founder & CEO</p>
+                    <p style="color: var(--gray-color); line-height: 1.6; font-size: 0.95rem;">
+                        Pet lover and entrepreneur with a passion for creating quality products that enhance the lives of pets and their owners.
+                    </p>
+                </div>
+                <div class="team-member fade-in-up" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--dark-color);">Michael Chen</h3>
+                    <p style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 600;">Product Designer</p>
+                    <p style="color: var(--gray-color); line-height: 1.6; font-size: 0.95rem;">
+                        Award-winning designer focused on creating functional, beautiful, and pet-friendly furniture and accessories.
+                    </p>
+                </div>
+                <div class="team-member fade-in-up" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--dark-color);">Emma Rodriguez</h3>
+                    <p style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 600;">Customer Experience Lead</p>
+                    <p style="color: var(--gray-color); line-height: 1.6; font-size: 0.95rem;">
+                        Dedicated to ensuring every customer has an exceptional experience and their pets receive the best care possible.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta fade-in-up" style="padding: 5rem 0; background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); color: white; text-align: center;">
+        <div class="container">
+            <h2 class="fade-in-up" style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Give Your Pet the Best?</h2>
+            <p class="fade-in-up" style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95;">
+                Explore our carefully curated collection of premium pet furniture and accessories.
+            </p>
+            <a href="products.html" class="btn fade-in-up" style="background: white; color: var(--primary-color); padding: 1rem 2.5rem; font-size: 1.1rem;">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Shopping Cart</h2>
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems" class="cart-items">
+                    <p class="empty-cart">Your cart is empty</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <h3>Total: $<span id="cartTotal">0.00</span></h3>
+                </div>
+                <button class="btn btn-primary" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>About Pupkits</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="index.html#contact">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Policies</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Pupkits. All rights reserved. | Made with <i class="fas fa-heart"></i> for pet lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

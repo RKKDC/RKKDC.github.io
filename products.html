@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Pupkits — Shop Furniture</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="products-page">
+	<!-- shared navbar (IDs must match index.html/product.html) -->
+	<nav class="navbar">
+		<div class="container">
+			<div class="nav-wrapper">
+				<a style="text-decoration:none;color:inherit" href="index.html">
+					<div class="logo"><i class="fas fa-paw"></i><span>PupKits</span></div>
+				</a>
+
+				<div class="nav-menu" id="navMenu">
+					<a href="index.html">Home</a>
+					<a href="products.html">Shop</a>
+					<a href="index.html#categories">Categories</a>
+					<a href="index.html#about">About</a>
+					<a href="index.html#contact">Contact</a>
+				</div>
+
+				<div class="nav-icons">
+					<button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+					<button class="cart-btn" id="cartBtn"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></button>
+					<button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+				</div>
+			</div>
+		</div>
+
+		<div class="search-bar" id="searchBar">
+			<div class="container">
+				<input id="navSearchInput" type="text" placeholder="Search for pet supplies..." oninput="debouncedSearchFromNav()" />
+				<button type="button" onclick="debouncedSearchFromNav()"><i class="fas fa-search"></i></button>
+			</div>
+		</div>
+	</nav>
+
+	<!-- ensure the products section exists and has the expected IDs -->
+	<section class="products fade-in-up" id="products">
+		<div class="container">
+			<h2 class="fade-in-up">Products</h2>
+			<div class="filter-section fade-in-up">
+				<input id="searchInput" placeholder="Search products..." />
+				<select id="filterSelect"><option value="all">All</option><option value="beds">Beds</option><option value="mats">Mats</option><option value="sofas">Sofas</option><option value="accessories">Accessories</option></select>
+				<div class="sort-section"><select><option value="">Sort</option><option value="price-low">Price: Low &rarr; High</option><option value="price-high">Price: High &rarr; Low</option><option value="rating">Top Rated</option><option value="name">Name</option></select></div>
+			</div>
+
+			<div class="products-grid fade-in-up" id="productsGrid" aria-live="polite"></div>
+			<div class="pagination fade-in-up" id="pagination" style="margin-top: 1rem; display: flex; justify-content: center; align-items: center;"></div>
+		</div>
+	</section>
+
+	<!-- ADD: Info, Cart and Product modals so nav/cart works on this page -->
+	<div class="modal" id="infoModal" aria-hidden="true">
+		<div class="modal-content" style="max-width:640px;">
+			<div class="modal-header">
+				<h2 id="infoTitle">Info</h2>
+				<button class="close-btn" onclick="closeInfoModal()">&times;</button>
+			</div>
+			<div class="modal-body" id="infoBody"></div>
+		</div>
+	</div>
+
+	<div class="modal" id="cartModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>Shopping Cart</h2>
+				<button class="close-btn" onclick="closeCart()">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div id="cartItems" class="cart-items"><p class="empty-cart">Your cart is empty</p></div>
+			</div>
+			<div class="modal-footer">
+				<div class="cart-total"><h3>Total: $<span id="cartTotal">0.00</span></h3></div>
+				<button class="btn btn-primary" onclick="checkout()">Proceed to Checkout</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" id="productModal" aria-hidden="true">
+		<div class="modal-content product-detail">
+			<button class="close-btn" onclick="closeProductModal()">&times;</button>
+			<div class="product-detail-content" id="productDetailContent"></div>
+		</div>
+	</div>
+
+	<footer class="footer">
+		<div class="container">
+			<div class="footer-grid">
+				<div class="footer-section">
+					<h4>About Pupkits</h4>
+					<ul>
+						<li><a href="index.html#about">About Us</a></li>
+						<li><a href="#">Careers</a></li>
+						<li><a href="#">Press</a></li>
+						<li><a href="#">Blog</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Customer Service</h4>
+					<ul>
+						<li><a href="#">Contact Us</a></li>
+						<li><a href="#">FAQs</a></li>
+						<li><a href="#">Shipping Info</a></li>
+						<li><a href="#">Returns</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Policies</h4>
+					<ul>
+						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="#">Terms of Service</a></li>
+						<li><a href="#">Accessibility</a></li>
+						<li><a href="#">Cookie Policy</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Follow Us</h4>
+					<div class="social-links">
+						<a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+						<a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+						<a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+						<a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>&copy; 2025 Pupkits. All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
+
+	<script src="product-video.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>

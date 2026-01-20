@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pupkits - Premium Pet Supplies & Accessories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                
+                <a style="text-decoration: none; color: inherit;" href="index.html"><div class="logo"><i class="fas fa-paw"></i><span>PupKits</span></div></a>
+                <div class="nav-menu" id="navMenu">
+                    <a href="#home">Home</a>
+                    <a href="products.html">Shop</a>
+                    <a href="#categories">Categories</a>
+                    <a href="about.html">About</a>
+                    <a href="#contact">Contact</a>
+                    <a href="register.html">Register</a>
+                    <a href="login.html">Login</a>
+                </div>
+
+                <div class="nav-icons">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar (changed id & handler) -->
+        <div class="search-bar" id="searchBar">
+            <div class="container">
+                <input type="text" placeholder="Search for pet supplies..." id="navSearchInput"
+                    oninput="debouncedSearchFromNav()" />
+                <button type="button" onclick="debouncedSearchFromNav()"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SLIDER -->
+    <section class="hero-section">
+        <div class="hero-slider">
+            <!-- Slide 1: Original Content -->
+            <div class="hero-slide active">
+                <div class="content fade-in">
+                    <h1>Welcome to PupKits</h1>
+                    <p>Premium beds, bedding, furniture and stylish accessories for pets</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Dog Beds Selection with Background -->
+            <div class="hero-slide slide-with-bg" style="background-image: url('background.jpg'); background-size: 100% 100%; background-position: center center;">
+                <div class="dog-beds-container">
+                    <div class="dog-beds-grid">
+                        <div class="dog-bed-card" data-bed="1" style="position: relative; left: 60%; bottom: -20%;">
+                            <div class="bed-image-wrapper">
+                                <img src="dogbed1.png" alt="Dog Bed 1" class="bed-image" style="width: 100%; max-width: 500px;">
+                                <div class="bed-highlight"></div>
+                                <div class="bed-info">
+                                    <h3>Luxury Comfort Bed</h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dog-bed-card" data-bed="2" style="position: relative; left: 0%; bottom: -20%; z-index: 5;">
+                            <div class="bed-image-wrapper">
+                                <img src="dogbed2.png" alt="Dog Bed 2" class="bed-image" style="width: 100%; max-width: 500px;">
+                                <div class="bed-highlight"></div>
+                                <div class="bed-info">
+                                    <h3>Cozy Cushion Bed</h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dog-bed-card" data-bed="3" style="position: relative; left: -65%; bottom: -30%;">
+                            <div class="bed-image-wrapper">
+                                <img src="dogbed3.png" alt="Dog Bed 3" class="bed-image" style="width: 100%; max-width: 500px;">
+                                <div class="bed-highlight"></div>
+                                <div class="bed-info">
+                                    <h3>Premium Lounge Bed</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <button class="slider-btn slider-prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn slider-next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Slider Dots -->
+        <div class="slider-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+        </div>
+    </section>
+
+    <!-- RECOMMENDED (replaces the previous inline products on homepage) -->
+    <section style="margin-top: 2em;" class="recommended fade-in-up" id="recommended">
+        <div class="container">
+            <h2 class="fade-in-up">Recommended for You</h2>
+            <div class="recommended-grid" id="recommendedGrid">
+                <!-- populated by script.js: top-rated 4 products -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES (renamed to Category) -->
+    <section class="categories fade-in-up" id="categories">
+        <div class="container">
+            <h2 class="fade-in-up">Category</h2>
+            <div class="categories-grid">
+                <div class="category-card fade-in-up" onclick="location.href='products.html?category=beds'">
+                    <div class="img-wrap" style="background-image:url('dogbed1.png');"></div>
+                    <div class="img-hover" style="background-image:url('dogbed2.png');"></div>
+                    <div class="category-label">Beds & Mattresses</div>
+                </div>
+
+                <div class="category-card fade-in-up" onclick="location.href='products.html?category=mats'">
+                    <div class="img-wrap" style="background-image:url('dogbed2.png');"></div>
+                    <div class="img-hover" style="background-image:url('dogbed3.png');"></div>
+                    <div class="category-label">Mats & Rugs</div>
+                </div>
+
+                <div class="category-card fade-in-up" onclick="location.href='products.html?category=sofas'">
+                    <div class="img-wrap" style="background-image:url('dogbed3.png');"></div>
+                    <div class="img-hover" style="background-image:url('dogbed1.png');"></div>
+                    <div class="category-label">Chairs & Sofas</div>
+                </div>
+
+                <div class="category-card fade-in-up" onclick="location.href='products.html?category=accessories'">
+                    <div class="img-wrap" style="background-image:url('dogbed1.png');"></div>
+                    <div class="img-hover" style="background-image:url('dogbed3.png');"></div>
+                    <div class="category-label">Covers & Accessories</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS (added so homepage can show product listing) -->
+    <!-- <section class="products" id="products">
+        <div class="container">
+            <h2>Shop All Products</h2>
+
+            <div class="filter-section" style="justify-content:space-between;gap:1rem;margin-bottom:1.25rem">
+                <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+                    <input id="searchInput" placeholder="Search products..." oninput="debouncedSearch()" />
+                    <select id="filterSelect" onchange="filterProducts(this.value)">
+                        <option value="all">All Categories</option>
+                        <option value="beds">Beds</option>
+                        <option value="mats">Mats</option>
+                        <option value="sofas">Sofas</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="sort-section">
+                    <select onchange="sortProducts(this.value)">
+                        <option value="">Sort</option>
+                        <option value="price-low">Price: Low &rarr; High</option>
+                        <option value="price-high">Price: High &rarr; Low</option>
+                        <option value="rating">Top Rated</option>
+                        <option value="name">Name</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid" aria-live="polite">
+                populated by script.js
+            </div>
+
+            <div class="pagination" id="pagination" style="margin-top:1.25rem;display:flex;gap:.5rem;justify-content:center"></div>
+        </div>
+    </section> -->
+
+     <!-- FEATURES (updated & clickable) -->
+    <section class="features fade-in-up">
+        <div class="container">
+            <h2 class="fade-in-up">Our Services</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up" data-feature="shipping" onclick="openFeature('shipping')">
+                    <i class="fas fa-shipping-fast fa-2x"></i>
+                    <h3>Shipping Details</h3>
+                    <p>Shipping process and information</p>
+                </div>
+                <div class="feature-card fade-in-up" data-feature="payment" onclick="openFeature('payment')">
+                    <i class="fas fa-lock fa-2x"></i>
+                    <h3>Payment Process</h3>
+                    <p>Secure and flexible payment options</p>
+                </div>
+                <div class="feature-card fade-in-up" data-feature="returns" onclick="openFeature('returns')">
+                    <i class="fas fa-undo fa-2x"></i>
+                    <h3>Return Policy</h3>
+                    <p>Hassle-free 30-day returns</p>
+                </div>
+                <div class="feature-card fade-in-up" data-feature="support" onclick="openFeature('support')">
+                    <i class="fas fa-headset fa-2x"></i>
+                    <h3>Customer Support</h3>
+                    <p>We're here to help 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Modal for features (kept, content populated in script.js) -->
+    <div class="modal" id="infoModal" aria-hidden="true">
+        <div class="modal-content" style="max-width:640px;">
+            <div class="modal-header">
+                <h2 id="infoTitle">Info</h2>
+                <button class="close-btn" onclick="closeInfoModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="infoBody"></div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about fade-in-up" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in-left">
+                    <h2>About Pupkits</h2>
+                    <p>At Pupkits, we believe that pets are family. Since 2015, we've been dedicated to providing the
+                        highest quality pet supplies and accessories at competitive prices. Our mission is to make pet
+                        care easy, affordable, and enjoyable for every pet owner.</p>
+                    <p>We carefully curate our selection of products to ensure that everything we offer meets our strict
+                        quality standards. From nutritious food to safe toys, we've got everything your furry friend
+                        needs to thrive.</p>
+                    <a href="about.html" class="btn btn-primary" style="margin-top: 1rem;">Read More About Us</a>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>50K+</h3>
+                            <p>Happy Customers</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Products</p>
+                        </div>
+                        <div class="stat">
+                            <h3>100%</h3>
+                            <p>Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image fade-in-right">
+                    <div class="image-placeholder">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter fade-in-up">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter for exclusive deals and pet care tips</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact fade-in-up" id="contact">
+        <div class="container">
+            <h2 class="fade-in-up">Get in Touch</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <a href="merchant.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                    <i class="fas fa-store" style="margin-right: 0.5rem;"></i>
+                    Become a Merchant
+                </a>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-form fade-in-left">
+                    <h3>Send us a Message</h3>
+                    <form onsubmit="submitContact(event)">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <input type="text" placeholder="Subject" required>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+                <div class="contact-info fade-in-right">
+                    <h3>Contact Information</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 Pet Street, Animal City, AC 12345</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>1-800-PUPKITS (1-800-787-5487)</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>support@pupkits.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Hours</h4>
+                            <p>Mon - Fri: 9AM - 6PM EST<br>Sat - Sun: 10AM - 4PM EST</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Shopping Cart</h2>
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems" class="cart-items">
+                    <p class="empty-cart">Your cart is empty</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <h3>Total: $<span id="cartTotal">0.00</span></h3>
+                </div>
+                <button class="btn btn-primary" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal (populated by JS; gallery + size/color/qty + buy/add) -->
+    <div class="modal" id="productModal" aria-hidden="true">
+        <div class="modal-content product-detail">
+            <button class="close-btn" onclick="closeProductModal()">&times;</button>
+            <div class="product-detail-content" id="productDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>About Pupkits</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="merchant.html">Become a Merchant</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Policies</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Pupkits. All rights reserved. | Made with <i class="fas fa-heart"></i> for pet lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="product-video.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
