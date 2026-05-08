@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Studio Visualizer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --text: #17212a;
+      --muted: #52606d;
+      --card: #ffffff;
+      --accent: #1177ff;
+      --accent-2: #00b894;
+      --danger: #d63031;
+      --radius: 16px;
+      --shadow: 0 20px 40px rgba(19, 28, 45, 0.08);
+      --hero-font: "DM Serif Display", serif;
+      --body-font: "Space Grotesk", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--body-font);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(17, 119, 255, 0.12), transparent 40%),
+        radial-gradient(circle at 80% 0%, rgba(0, 184, 148, 0.15), transparent 40%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+      color: var(--text);
+      min-height: 100vh;
+      animation: fadeIn 500ms ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 22px;
+    }
+
+    .canvas {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(23, 33, 42, 0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .group {
+      margin-bottom: 16px;
+      border: 1px solid rgba(23, 33, 42, 0.08);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .group h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: #1f2f3b;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d7dfe8;
+      border-radius: 9px;
+      padding: 8px 9px;
+      font-size: 13px;
+      font-family: var(--body-font);
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 66px;
+    }
+
+    input[type="color"] {
+      width: 100%;
+      border: 1px solid #d7dfe8;
+      border-radius: 9px;
+      padding: 3px;
+      height: 36px;
+      background: #fff;
+    }
+
+    .toggles {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .toggle {
+      border: 1px solid #d8dfe8;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .toggle.active {
+      border-color: var(--accent);
+      background: rgba(17, 119, 255, 0.1);
+      color: #0d4ca3;
+      font-weight: 600;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-weight: 600;
+      font-family: var(--body-font);
+      cursor: pointer;
+      transition: transform 140ms ease, opacity 140ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .b-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .b-green {
+      background: var(--accent-2);
+      color: #fff;
+    }
+
+    .b-light {
+      background: #ebf2ff;
+      color: #17417d;
+    }
+
+    .b-danger {
+      background: #ffe9e9;
+      color: var(--danger);
+    }
+
+    .media-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .media-thumb {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      aspect-ratio: 1.4 / 1;
+      background: #ddd;
+    }
+
+    .media-thumb.active {
+      border-color: var(--accent);
+    }
+
+    .media-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .canvas {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: #17324e;
+    }
+
+    .badge {
+      background: #eaf3ff;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(23, 50, 78, 0.1);
+    }
+
+    .previews {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .site-box {
+      border: 1px solid rgba(23, 33, 42, 0.12);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 510px;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(22, 30, 42, 0.08);
+      animation: rise 350ms ease;
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(8px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .site-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(23, 33, 42, 0.08);
+      background: #f8fbff;
+      font-size: 13px;
+      color: #2c445f;
+    }
+
+    .site-stage {
+      padding: 16px;
+      min-height: 460px;
+    }
+
+    .hero {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(23, 33, 42, 0.08);
+      background: var(--card);
+    }
+
+    .hero-media {
+      position: relative;
+      height: 220px;
+      background: #d8e1eb;
+      overflow: hidden;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-content {
+      padding: 16px;
+    }
+
+    .hero-title {
+      margin: 0 0 8px;
+      line-height: 1.15;
+      font-family: var(--hero-font);
+    }
+
+    .hero-desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .cards {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(23, 33, 42, 0.1);
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(23, 33, 42, 0.16);
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .slider-wrap {
+      margin-top: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(23, 33, 42, 0.12);
+      padding: 10px;
+    }
+
+    .slider-grid {
+      margin-top: 8px;
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .slide {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(23, 33, 42, 0.12);
+      background: #dbe5f0;
+      min-height: 120px;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .shop-wrap {
+      margin-top: 14px;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .shop-item {
+      border: 1px solid rgba(23, 33, 42, 0.12);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .shop-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid rgba(23, 33, 42, 0.12);
+    }
+
+    .shop-body {
+      padding: 10px;
+    }
+
+    .c-card {
+      background: var(--card);
+      border: 1px solid rgba(23, 33, 42, 0.09);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .c-card strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .logs {
+      border: 1px solid rgba(23, 33, 42, 0.08);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+      font-size: 13px;
+      color: #29435c;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .log-item {
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(23, 33, 42, 0.12);
+    }
+
+    .log-item:last-child {
+      border-bottom: 0;
+    }
+
+    .editable-node {
+      position: relative;
+      border-radius: 8px;
+      isolation: isolate;
+    }
+
+    .editable-node:hover,
+    .editable-node:focus-within {
+      outline: 2px dashed rgba(17, 119, 255, 0.35);
+      outline-offset: 4px;
+    }
+
+    .inline-edit-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      border: 1px solid rgba(23, 33, 42, 0.15);
+      background: #ffffff;
+      color: #0f3b70;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease;
+      z-index: 10000;
+      box-shadow: 0 8px 18px rgba(15, 37, 66, 0.2);
+    }
+
+    .editable-node.active-edit-target .inline-edit-btn,
+    .editable-node:focus-within .inline-edit-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 19, 32, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 12px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(700px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(23, 33, 42, 0.1);
+      box-shadow: 0 24px 40px rgba(8, 18, 32, 0.35);
+      padding: 14px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #183351;
+    }
+
+    .mode-chip {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(23, 51, 81, 0.12);
+      color: #35597e;
+      background: #f3f8ff;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .previews {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .slider-grid,
+      .shop-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .editable-node .inline-edit-btn {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <main class="canvas">
+      <div class="logo">Admin Studio Visualizer</div>
+      <div class="sub">Inline editing model: Hover/Tap -> Edit -> Modal, with draft to live publishing</div>
+      <div class="top-actions">
+        <button class="b-light" id="viewHome">View: Home</button>
+        <button class="b-light" id="viewShop">View: Shop</button>
+        <button class="b-light" id="openPresetsEditor">Presets</button>
+        <button class="b-light" id="toggleEditMode">Edit Mode: ON</button>
+        <button class="b-primary" id="saveDraft">Save Draft</button>
+        <button class="b-light" id="previewDraft">Preview Draft</button>
+        <button class="b-green" id="publishLive">Publish Live</button>
+        <button class="b-danger" id="rollback">Rollback</button>
+      </div>
+
+      <div class="badge-row">
+        <div class="badge">Backend API (Laravel)</div>
+        <div class="badge">Admin Studio Domain</div>
+        <div class="badge">Client Domain</div>
+      </div>
+
+      <section class="previews">
+        <article class="site-box">
+          <div class="site-head">
+            <strong>Draft Preview</strong>
+            <span id="draftTag">Unpublished Draft</span>
+          </div>
+          <div class="site-stage" id="draftRender"></div>
+        </article>
+
+        <article class="site-box">
+          <div class="site-head">
+            <strong>Live Client</strong>
+            <span id="liveTag">Current Production</span>
+          </div>
+          <div class="site-stage" id="liveRender"></div>
+        </article>
+      </section>
+
+      <section class="logs" id="logs"></section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="editorModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h3 id="modalTitle">Edit Block</h3>
+        <button class="b-light" id="closeEditor">Close</button>
+      </div>
+      <div class="btn-row" style="margin-top:0; margin-bottom:10px;">
+        <span class="mode-chip" id="modalTargetLabel">Target: -</span>
+      </div>
+      <div id="blockEditorSection">
+      <div class="group" style="margin-bottom:10px;">
+        <h3>Text</h3>
+        <label for="modalText">Content</label>
+        <textarea id="modalText"></textarea>
+      </div>
+      <div class="group">
+        <h3>Style</h3>
+        <div class="grid-2">
+          <div>
+            <label for="modalInherit">Inherit Theme</label>
+            <select id="modalInherit">
+              <option value="true">Yes</option>
+              <option value="false">No (Custom)</option>
+            </select>
+          </div>
+          <div>
+            <label for="modalColor">Color</label>
+            <input id="modalColor" type="color" />
+          </div>
+          <div>
+            <label for="modalFont">Font</label>
+            <select id="modalFont">
+              <option value="Space Grotesk">Space Grotesk</option>
+              <option value="DM Serif Display">DM Serif Display</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Trebuchet MS">Trebuchet MS</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+          </div>
+          <div>
+            <label for="modalSize">Size (px)</label>
+            <input id="modalSize" type="number" min="12" max="64" />
+          </div>
+          <div>
+            <label for="modalWeight">Weight</label>
+            <select id="modalWeight">
+              <option value="400">Regular</option>
+              <option value="500">Medium</option>
+              <option value="700">Bold</option>
+            </select>
+          </div>
+          <div>
+            <label for="modalAlign">Align</label>
+            <select id="modalAlign">
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+          <div>
+            <label for="modalItalic">Italic</label>
+            <select id="modalItalic">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label for="modalLineHeight">Line Height</label>
+            <input id="modalLineHeight" type="number" min="1" max="2.2" step="0.05" />
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="b-light" id="modalReset">Reset To Theme</button>
+          <button class="b-primary" id="modalSave">Apply Changes</button>
+        </div>
+      </div>
+      </div>
+
+      <div id="globalEditorSection" class="hidden">
+        <div class="group" id="editorThemeGroup">
+          <h3>Theme Tokens</h3>
+          <div class="grid-2">
+            <div>
+              <label for="bgColor">Background</label>
+              <input id="bgColor" type="color" value="#f4f6f8" />
+            </div>
+            <div>
+              <label for="textColor">Text</label>
+              <input id="textColor" type="color" value="#17212a" />
+            </div>
+            <div>
+              <label for="cardColor">Cards</label>
+              <input id="cardColor" type="color" value="#ffffff" />
+            </div>
+            <div>
+              <label for="accentColor">Accent</label>
+              <input id="accentColor" type="color" value="#1177ff" />
+            </div>
+            <div>
+              <label for="navBgColor">Nav Bg</label>
+              <input id="navBgColor" type="color" value="#ffffff" />
+            </div>
+            <div>
+              <label for="navTextColor">Nav Text</label>
+              <input id="navTextColor" type="color" value="#17212a" />
+            </div>
+            <div>
+              <label for="sliderBgColor">Slider Bg</label>
+              <input id="sliderBgColor" type="color" value="#eef5ff" />
+            </div>
+            <div>
+              <label for="shopCardColor">Shop Card Bg</label>
+              <input id="shopCardColor" type="color" value="#ffffff" />
+            </div>
+          </div>
+        </div>
+
+        <div class="group hidden" id="editorCardStyleGroup">
+          <h3>Card Style</h3>
+          <label for="cardStyleBg">Card Background</label>
+          <input id="cardStyleBg" type="color" value="#ffffff" />
+          <label for="cardStyleBorder" style="margin-top:8px;">Card Border</label>
+          <input id="cardStyleBorder" type="color" value="#dfe6ef" />
+          <div class="btn-row">
+            <button class="b-primary" id="applyCardStyle">Apply Card Style</button>
+          </div>
+        </div>
+
+        <div class="group hidden" id="editorImageTargetGroup">
+          <h3>Image/Video Target</h3>
+          <label for="targetAssetUrl" id="targetAssetLabel">Asset URL</label>
+          <input id="targetAssetUrl" type="url" placeholder="https://..." />
+          <div class="btn-row">
+            <button class="b-primary" id="applyTargetAsset">Apply Asset</button>
+          </div>
+        </div>
+
+        <div class="group" id="editorTypographyGroup">
+          <h3>Typography</h3>
+          <div class="grid-2">
+            <div>
+              <label for="fontFamily">Body Font</label>
+              <select id="fontFamily">
+                <option value="Space Grotesk">Space Grotesk</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Trebuchet MS">Trebuchet MS</option>
+                <option value="Verdana">Verdana</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroFont">Hero Font</label>
+              <select id="heroFont">
+                <option value="DM Serif Display">DM Serif Display</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Space Grotesk">Space Grotesk</option>
+              </select>
+            </div>
+            <div>
+              <label for="baseSize">Body Size (px)</label>
+              <input id="baseSize" type="number" min="12" max="22" value="16" />
+            </div>
+            <div>
+              <label for="titleSize">Hero Size (px)</label>
+              <input id="titleSize" type="number" min="24" max="64" value="40" />
+            </div>
+          </div>
+          <div class="toggles">
+            <div class="toggle" id="titleBold">Bold</div>
+            <div class="toggle" id="titleItalic">Italic</div>
+          </div>
+        </div>
+
+        <div class="group" id="editorContentGroup">
+          <h3>Content Text</h3>
+          <label for="heroTitle">Hero Title</label>
+          <input id="heroTitle" type="text" value="Build fast. Stay in control." />
+
+          <label for="heroDesc" style="margin-top:8px;">Hero Description</label>
+          <textarea id="heroDesc">This is a controlled editor model where admin can customize safely and publish only validated changes.</textarea>
+        </div>
+
+        <div class="group" id="editorTextOverrideGroup">
+          <h3>Per-Text Style Overrides</h3>
+
+          <label style="margin-bottom:6px; font-weight:600; color:#1f2f3b;">Hero Title Style</label>
+          <div class="grid-2">
+            <div>
+              <label for="heroTitleInherit">Inherit Theme</label>
+              <select id="heroTitleInherit">
+                <option value="true">Yes</option>
+                <option value="false">No (Custom)</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroTitleColor">Color</label>
+              <input id="heroTitleColor" type="color" value="#17212a" />
+            </div>
+            <div>
+              <label for="heroTitleFont">Font</label>
+              <select id="heroTitleFont">
+                <option value="DM Serif Display">DM Serif Display</option>
+                <option value="Space Grotesk">Space Grotesk</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Times New Roman">Times New Roman</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroTitleSize">Size (px)</label>
+              <input id="heroTitleSize" type="number" min="24" max="64" value="40" />
+            </div>
+            <div>
+              <label for="heroTitleWeight">Weight</label>
+              <select id="heroTitleWeight">
+                <option value="400">Regular</option>
+                <option value="500">Medium</option>
+                <option value="700">Bold</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroTitleAlign">Align</label>
+              <select id="heroTitleAlign">
+                <option value="left">Left</option>
+                <option value="center">Center</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroTitleItalicCtrl">Italic</label>
+              <select id="heroTitleItalicCtrl">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroTitleLineHeight">Line Height</label>
+              <input id="heroTitleLineHeight" type="number" min="1" max="2" step="0.05" value="1.15" />
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="b-light" id="resetHeroTitleStyle">Reset Title To Theme</button>
+          </div>
+
+          <label style="margin:10px 0 6px; font-weight:600; color:#1f2f3b;">Hero Description Style</label>
+          <div class="grid-2">
+            <div>
+              <label for="heroDescInherit">Inherit Theme</label>
+              <select id="heroDescInherit">
+                <option value="true">Yes</option>
+                <option value="false">No (Custom)</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroDescColor">Color</label>
+              <input id="heroDescColor" type="color" value="#17212a" />
+            </div>
+            <div>
+              <label for="heroDescFont">Font</label>
+              <select id="heroDescFont">
+                <option value="Space Grotesk">Space Grotesk</option>
+                <option value="DM Serif Display">DM Serif Display</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Verdana">Verdana</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroDescSize">Size (px)</label>
+              <input id="heroDescSize" type="number" min="12" max="28" value="16" />
+            </div>
+            <div>
+              <label for="heroDescWeight">Weight</label>
+              <select id="heroDescWeight">
+                <option value="400">Regular</option>
+                <option value="500">Medium</option>
+                <option value="700">Bold</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroDescAlign">Align</label>
+              <select id="heroDescAlign">
+                <option value="left">Left</option>
+                <option value="center">Center</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroDescItalicCtrl">Italic</label>
+              <select id="heroDescItalicCtrl">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
+            </div>
+            <div>
+              <label for="heroDescLineHeight">Line Height</label>
+              <input id="heroDescLineHeight" type="number" min="1" max="2.2" step="0.05" value="1.55" />
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="b-light" id="resetHeroDescStyle">Reset Description To Theme</button>
+          </div>
+        </div>
+
+        <div class="group" id="editorMediaGroup">
+          <h3>Media</h3>
+          <label for="imageUrl">Image URL</label>
+          <input id="imageUrl" type="url" placeholder="https://..." />
+          <div class="btn-row">
+            <button class="b-light" id="applyImageUrl">Apply URL</button>
+          </div>
+
+          <label for="videoUrl" style="margin-top:8px;">Video URL (stored only)</label>
+          <input id="videoUrl" type="url" placeholder="https://youtube.com/..." />
+
+          <label for="sliderImage1" style="margin-top:8px;">Slider Image 1</label>
+          <input id="sliderImage1" type="url" placeholder="https://..." />
+          <label for="sliderImage2" style="margin-top:8px;">Slider Image 2</label>
+          <input id="sliderImage2" type="url" placeholder="https://..." />
+          <label for="sliderImage3" style="margin-top:8px;">Slider Image 3</label>
+          <input id="sliderImage3" type="url" placeholder="https://..." />
+
+          <div style="margin-top:8px; font-size:12px; color:#5a6e81;">Media library samples</div>
+          <div class="media-list" id="mediaLibrary"></div>
+        </div>
+
+        <div class="group" id="editorPresetsGroup">
+          <h3>Presets</h3>
+          <label for="presetName">Preset Name</label>
+          <input id="presetName" type="text" placeholder="Summer Promo, Corporate Blue..." />
+          <div class="btn-row">
+            <button class="b-light" id="savePreset">Save Preset</button>
+            <button class="b-light" id="loadPreset">Load Preset</button>
+          </div>
+          <label for="presetSelect" style="margin-top:8px;">Available Presets</label>
+          <select id="presetSelect"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const mediaSamples = [
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80"
+    ];
+
+    const defaultTextValues = {
+      heroTitle: "Build fast. Stay in control.",
+      heroDesc: "This is a controlled editor model where admin can customize safely and publish only validated changes.",
+      navBrand: "RKKDC Studio",
+      navLink1: "Home",
+      navLink2: "Shop",
+      navLink3: "Support",
+      sliderTitle: "Featured Highlights",
+      sliderDesc: "Preview featured content and promotions in one responsive section.",
+      shopTitle: "Shop Preview",
+      product1Name: "Starter Bundle",
+      product1Price: "$49",
+      product2Name: "Growth Bundle",
+      product2Price: "$99",
+      product3Name: "Pro Bundle",
+      product3Price: "$149",
+      card1Title: "Theme Safety",
+      card1Desc: "Only validated tokens are applied.",
+      card2Title: "Publishing",
+      card2Desc: "Draft and Live are separated.",
+      card3Title: "Media",
+      card3Desc: "Upload, library, or trusted URL."
+    };
+
+    const editableTextLabels = {
+      heroTitle: "Hero Title",
+      heroDesc: "Hero Description",
+      navBrand: "Nav Brand",
+      navLink1: "Nav Link 1",
+      navLink2: "Nav Link 2",
+      navLink3: "Nav Link 3",
+      sliderTitle: "Slider Title",
+      sliderDesc: "Slider Description",
+      shopTitle: "Shop Title",
+      product1Name: "Product 1 Name",
+      product1Price: "Product 1 Price",
+      product2Name: "Product 2 Name",
+      product2Price: "Product 2 Price",
+      product3Name: "Product 3 Name",
+      product3Price: "Product 3 Price",
+      card1Title: "Card 1 Title",
+      card1Desc: "Card 1 Description",
+      card2Title: "Card 2 Title",
+      card2Desc: "Card 2 Description",
+      card3Title: "Card 3 Title",
+      card3Desc: "Card 3 Description"
+    };
+
+    const defaultTextStyles = {
+      heroTitle: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "DM Serif Display",
+        size: 40,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.15
+      },
+      heroDesc: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 16,
+        weight: 400,
+        italic: false,
+        align: "left",
+        lineHeight: 1.55
+      },
+      navBrand: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 16,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      navLink1: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 12,
+        weight: 500,
+        italic: false,
+        align: "left",
+        lineHeight: 1.2
+      },
+      navLink2: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 12,
+        weight: 500,
+        italic: false,
+        align: "left",
+        lineHeight: 1.2
+      },
+      navLink3: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 12,
+        weight: 500,
+        italic: false,
+        align: "left",
+        lineHeight: 1.2
+      },
+      sliderTitle: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 22,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.2
+      },
+      sliderDesc: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 14,
+        weight: 400,
+        italic: false,
+        align: "left",
+        lineHeight: 1.5
+      },
+      shopTitle: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 24,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      product1Name: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 15,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.3
+      },
+      product1Price: {
+        inherit: true,
+        color: "#1177ff",
+        fontFamily: "Space Grotesk",
+        size: 14,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      product2Name: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 15,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.3
+      },
+      product2Price: {
+        inherit: true,
+        color: "#1177ff",
+        fontFamily: "Space Grotesk",
+        size: 14,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      product3Name: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 15,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.3
+      },
+      product3Price: {
+        inherit: true,
+        color: "#1177ff",
+        fontFamily: "Space Grotesk",
+        size: 14,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      card1Title: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 15,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      card1Desc: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 13,
+        weight: 400,
+        italic: false,
+        align: "left",
+        lineHeight: 1.45
+      },
+      card2Title: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 15,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      card2Desc: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 13,
+        weight: 400,
+        italic: false,
+        align: "left",
+        lineHeight: 1.45
+      },
+      card3Title: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 15,
+        weight: 700,
+        italic: false,
+        align: "left",
+        lineHeight: 1.25
+      },
+      card3Desc: {
+        inherit: true,
+        color: "#17212a",
+        fontFamily: "Space Grotesk",
+        size: 13,
+        weight: 400,
+        italic: false,
+        align: "left",
+        lineHeight: 1.45
+      }
+    };
+
+    const state = {
+      draft: {
+        bgColor: "#f4f6f8",
+        textColor: "#17212a",
+        cardColor: "#ffffff",
+        card1Color: "#ffffff",
+        card1BorderColor: "#dfe6ef",
+        card2Color: "#ffffff",
+        card2BorderColor: "#dfe6ef",
+        card3Color: "#ffffff",
+        card3BorderColor: "#6ca8ff",
+        accentColor: "#1177ff",
+        navBgColor: "#ffffff",
+        navTextColor: "#17212a",
+        sliderBgColor: "#eef5ff",
+        shopCardColor: "#ffffff",
+        fontFamily: "Space Grotesk",
+        heroFont: "DM Serif Display",
+        baseSize: 16,
+        titleSize: 40,
+        titleBold: false,
+        titleItalic: false,
+        heroTitle: defaultTextValues.heroTitle,
+        heroDesc: defaultTextValues.heroDesc,
+        navBrand: defaultTextValues.navBrand,
+        navLink1: defaultTextValues.navLink1,
+        navLink2: defaultTextValues.navLink2,
+        navLink3: defaultTextValues.navLink3,
+        sliderTitle: defaultTextValues.sliderTitle,
+        sliderDesc: defaultTextValues.sliderDesc,
+        shopTitle: defaultTextValues.shopTitle,
+        product1Name: defaultTextValues.product1Name,
+        product1Price: defaultTextValues.product1Price,
+        product2Name: defaultTextValues.product2Name,
+        product2Price: defaultTextValues.product2Price,
+        product3Name: defaultTextValues.product3Name,
+        product3Price: defaultTextValues.product3Price,
+        card1Title: defaultTextValues.card1Title,
+        card1Desc: defaultTextValues.card1Desc,
+        card2Title: defaultTextValues.card2Title,
+        card2Desc: defaultTextValues.card2Desc,
+        card3Title: defaultTextValues.card3Title,
+        card3Desc: defaultTextValues.card3Desc,
+        textStyles: JSON.parse(JSON.stringify(defaultTextStyles)),
+        imageUrl: mediaSamples[0],
+        sliderImage1: mediaSamples[0],
+        sliderImage2: mediaSamples[1],
+        sliderImage3: mediaSamples[2],
+        productImage1: mediaSamples[0],
+        productImage2: mediaSamples[1],
+        productImage3: mediaSamples[2],
+        videoUrl: ""
+      },
+      live: null,
+      previousLive: null,
+      ui: {
+        editMode: true,
+        activeEditorTarget: null,
+        activeCardStyleTarget: null,
+        activeAssetField: null,
+        editorMode: "block",
+        previewPage: "home"
+      }
+    };
+
+    const defaultPresetName = "Default";
+    const defaultPreset = JSON.parse(JSON.stringify(state.draft));
+    const defaultDraftFields = {
+      bgColor: "#f4f6f8",
+      textColor: "#17212a",
+      cardColor: "#ffffff",
+      card1Color: "#ffffff",
+      card1BorderColor: "#dfe6ef",
+      card2Color: "#ffffff",
+      card2BorderColor: "#dfe6ef",
+      card3Color: "#ffffff",
+      card3BorderColor: "#6ca8ff",
+      accentColor: "#1177ff",
+      navBgColor: "#ffffff",
+      navTextColor: "#17212a",
+      sliderBgColor: "#eef5ff",
+      shopCardColor: "#ffffff",
+      fontFamily: "Space Grotesk",
+      heroFont: "DM Serif Display",
+      baseSize: 16,
+      titleSize: 40,
+      titleBold: false,
+      titleItalic: false,
+      imageUrl: mediaSamples[0],
+      sliderImage1: mediaSamples[0],
+      sliderImage2: mediaSamples[1],
+      sliderImage3: mediaSamples[2],
+      productImage1: mediaSamples[0],
+      productImage2: mediaSamples[1],
+      productImage3: mediaSamples[2],
+      videoUrl: ""
+    };
+
+    state.live = JSON.parse(JSON.stringify(state.draft));
+
+    const inputIds = [
+      "bgColor", "textColor", "cardColor", "card1Color", "card1BorderColor", "card2Color", "card2BorderColor", "card3Color", "card3BorderColor", "accentColor", "navBgColor", "navTextColor", "sliderBgColor", "shopCardColor",
+      "fontFamily", "heroFont", "baseSize", "titleSize",
+      "heroTitle", "heroDesc", "imageUrl", "sliderImage1", "sliderImage2", "sliderImage3", "videoUrl"
+    ];
+
+    const textStyleInputMap = {
+      heroTitle: {
+        inherit: "heroTitleInherit",
+        color: "heroTitleColor",
+        fontFamily: "heroTitleFont",
+        size: "heroTitleSize",
+        weight: "heroTitleWeight",
+        italic: "heroTitleItalicCtrl",
+        align: "heroTitleAlign",
+        lineHeight: "heroTitleLineHeight"
+      },
+      heroDesc: {
+        inherit: "heroDescInherit",
+        color: "heroDescColor",
+        fontFamily: "heroDescFont",
+        size: "heroDescSize",
+        weight: "heroDescWeight",
+        italic: "heroDescItalicCtrl",
+        align: "heroDescAlign",
+        lineHeight: "heroDescLineHeight"
+      }
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    function log(message) {
+      const logs = el("logs");
+      const item = document.createElement("div");
+      item.className = "log-item";
+      item.textContent = `${new Date().toLocaleTimeString()} - ${message}`;
+      logs.prepend(item);
+    }
+
+    function syncInputsFromDraft() {
+      inputIds.forEach((id) => {
+        const target = el(id);
+        if (!target) {
+          return;
+        }
+        target.value = state.draft[id];
+      });
+      el("titleBold").classList.toggle("active", state.draft.titleBold);
+      el("titleItalic").classList.toggle("active", state.draft.titleItalic);
+      syncTextStyleInputsFromDraft();
+      markActiveMedia();
+    }
+
+    function syncDraftFromInputs() {
+      inputIds.forEach((id) => {
+        const target = el(id);
+        if (!target) {
+          return;
+        }
+        if (id === "baseSize" || id === "titleSize") {
+          state.draft[id] = Number(target.value || 16);
+        } else {
+          state.draft[id] = target.value;
+        }
+      });
+      syncTextStyleDraftFromInputs();
+    }
+
+    function syncTextStyleInputsFromDraft() {
+      Object.entries(textStyleInputMap).forEach(([key, map]) => {
+        const style = state.draft.textStyles[key];
+        el(map.inherit).value = String(style.inherit);
+        el(map.color).value = style.color;
+        el(map.fontFamily).value = style.fontFamily;
+        el(map.size).value = style.size;
+        el(map.weight).value = String(style.weight);
+        el(map.italic).value = String(style.italic);
+        el(map.align).value = style.align;
+        el(map.lineHeight).value = style.lineHeight;
+        setStyleInputsDisabled(key, style.inherit);
+      });
+    }
+
+    function syncTextStyleDraftFromInputs() {
+      Object.entries(textStyleInputMap).forEach(([key, map]) => {
+        if (!state.draft.textStyles[key]) {
+          return;
+        }
+        state.draft.textStyles[key].inherit = el(map.inherit).value === "true";
+        state.draft.textStyles[key].color = el(map.color).value;
+        state.draft.textStyles[key].fontFamily = el(map.fontFamily).value;
+        state.draft.textStyles[key].size = Number(el(map.size).value || 16);
+        state.draft.textStyles[key].weight = Number(el(map.weight).value || 400);
+        state.draft.textStyles[key].italic = el(map.italic).value === "true";
+        state.draft.textStyles[key].align = el(map.align).value;
+        state.draft.textStyles[key].lineHeight = Number(el(map.lineHeight).value || 1.4);
+      });
+    }
+
+    function setStyleInputsDisabled(styleKey, inherit) {
+      const map = textStyleInputMap[styleKey];
+      [map.color, map.fontFamily, map.size, map.weight, map.italic, map.align, map.lineHeight].forEach((fieldId) => {
+        el(fieldId).disabled = inherit;
+      });
+    }
+
+    function resolveTextStyle(cfg, key) {
+      const override = cfg.textStyles[key];
+      if (!override || override.inherit) {
+        if (key === "heroTitle") {
+          return {
+            color: cfg.textColor,
+            fontFamily: cfg.heroFont,
+            size: cfg.titleSize,
+            weight: cfg.titleBold ? 700 : 400,
+            italic: cfg.titleItalic,
+            align: "left",
+            lineHeight: 1.15
+          };
+        }
+        if (key.endsWith("Title")) {
+          return {
+            color: cfg.textColor,
+            fontFamily: cfg.fontFamily,
+            size: 15,
+            weight: 700,
+            italic: false,
+            align: "left",
+            lineHeight: 1.25
+          };
+        }
+        return {
+          color: `${cfg.textColor}cc`,
+          fontFamily: cfg.fontFamily,
+          size: cfg.baseSize,
+          weight: 400,
+          italic: false,
+          align: "left",
+          lineHeight: 1.55
+        };
+      }
+
+      return {
+        color: override.color,
+        fontFamily: override.fontFamily,
+        size: override.size,
+        weight: override.weight,
+        italic: override.italic,
+        align: override.align,
+        lineHeight: override.lineHeight
+      };
+    }
+
+    function renderSite(container, cfg) {
+      const titleStyle = resolveTextStyle(cfg, "heroTitle");
+      const descStyle = resolveTextStyle(cfg, "heroDesc");
+      const navBrandStyle = resolveTextStyle(cfg, "navBrand");
+      const navLink1Style = resolveTextStyle(cfg, "navLink1");
+      const navLink2Style = resolveTextStyle(cfg, "navLink2");
+      const navLink3Style = resolveTextStyle(cfg, "navLink3");
+      const sliderTitleStyle = resolveTextStyle(cfg, "sliderTitle");
+      const sliderDescStyle = resolveTextStyle(cfg, "sliderDesc");
+      const shopTitleStyle = resolveTextStyle(cfg, "shopTitle");
+      const product1NameStyle = resolveTextStyle(cfg, "product1Name");
+      const product1PriceStyle = resolveTextStyle(cfg, "product1Price");
+      const product2NameStyle = resolveTextStyle(cfg, "product2Name");
+      const product2PriceStyle = resolveTextStyle(cfg, "product2Price");
+      const product3NameStyle = resolveTextStyle(cfg, "product3Name");
+      const product3PriceStyle = resolveTextStyle(cfg, "product3Price");
+      const card1TitleStyle = resolveTextStyle(cfg, "card1Title");
+      const card1DescStyle = resolveTextStyle(cfg, "card1Desc");
+      const card2TitleStyle = resolveTextStyle(cfg, "card2Title");
+      const card2DescStyle = resolveTextStyle(cfg, "card2Desc");
+      const card3TitleStyle = resolveTextStyle(cfg, "card3Title");
+      const card3DescStyle = resolveTextStyle(cfg, "card3Desc");
+      const canInlineEdit = container.id === "draftRender" && state.ui.editMode;
+      const isShopPage = state.ui.previewPage === "shop";
+      container.innerHTML = `
+        <div class="editable-node" data-edit-target="theme" tabindex="0" style="background:${cfg.bgColor}; color:${cfg.textColor}; border-radius:12px; padding:12px; min-height:430px; font-family:${cssEscapeFont(cfg.fontFamily)}; font-size:${cfg.baseSize}px;">
+          ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"theme\">Theme</button>" : ""}
+          <nav class="nav-bar" style="background:${cfg.navBgColor}; color:${cfg.navTextColor};">
+            <div class="editable-node" data-edit-target="navBrand" tabindex="0">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"navBrand\">Edit</button>" : ""}
+              <strong style="color:${navBrandStyle.color}; font-size:${navBrandStyle.size}px; font-weight:${navBrandStyle.weight}; font-style:${navBrandStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(navBrandStyle.fontFamily)}; text-align:${navBrandStyle.align}; line-height:${navBrandStyle.lineHeight};">${escapeHtml(cfg.navBrand)}</strong>
+            </div>
+            <div class="nav-links">
+              <div class="editable-node" data-edit-target="navLink1" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"navLink1\">Edit</button>" : ""}
+                <span class="nav-pill" style="color:${navLink1Style.color}; font-size:${navLink1Style.size}px; font-weight:${navLink1Style.weight}; font-style:${navLink1Style.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(navLink1Style.fontFamily)}; text-align:${navLink1Style.align}; line-height:${navLink1Style.lineHeight};">${escapeHtml(cfg.navLink1)}</span>
+              </div>
+              <div class="editable-node" data-edit-target="navLink2" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"navLink2\">Edit</button>" : ""}
+                <span class="nav-pill" style="color:${navLink2Style.color}; font-size:${navLink2Style.size}px; font-weight:${navLink2Style.weight}; font-style:${navLink2Style.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(navLink2Style.fontFamily)}; text-align:${navLink2Style.align}; line-height:${navLink2Style.lineHeight};">${escapeHtml(cfg.navLink2)}</span>
+              </div>
+              <div class="editable-node" data-edit-target="navLink3" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"navLink3\">Edit</button>" : ""}
+                <span class="nav-pill" style="color:${navLink3Style.color}; font-size:${navLink3Style.size}px; font-weight:${navLink3Style.weight}; font-style:${navLink3Style.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(navLink3Style.fontFamily)}; text-align:${navLink3Style.align}; line-height:${navLink3Style.lineHeight};">${escapeHtml(cfg.navLink3)}</span>
+              </div>
+            </div>
+          </nav>
+
+          ${isShopPage ? `
+          <section class="shop-wrap">
+            <div class="editable-node" data-edit-target="shopTitle" tabindex="0">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"shopTitle\">Edit</button>" : ""}
+              <h2 style="margin:0; color:${shopTitleStyle.color}; font-size:${shopTitleStyle.size}px; font-weight:${shopTitleStyle.weight}; font-style:${shopTitleStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(shopTitleStyle.fontFamily)}; text-align:${shopTitleStyle.align}; line-height:${shopTitleStyle.lineHeight};">${escapeHtml(cfg.shopTitle)}</h2>
+            </div>
+            <section class="shop-grid">
+              <article class="shop-item" style="background:${cfg.shopCardColor};">
+                <img src="${escapeHtml(cfg.productImage1 || mediaSamples[0])}" alt="product 1" onerror="this.src='${mediaSamples[0]}'" />
+                <div class="shop-body">
+                  <div style="color:${product1NameStyle.color}; font-size:${product1NameStyle.size}px; font-weight:${product1NameStyle.weight}; font-style:${product1NameStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(product1NameStyle.fontFamily)}; text-align:${product1NameStyle.align}; line-height:${product1NameStyle.lineHeight};">${escapeHtml(cfg.product1Name)}</div>
+                  <div style="color:${product1PriceStyle.color}; font-size:${product1PriceStyle.size}px; font-weight:${product1PriceStyle.weight}; font-style:${product1PriceStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(product1PriceStyle.fontFamily)}; text-align:${product1PriceStyle.align}; line-height:${product1PriceStyle.lineHeight};">${escapeHtml(cfg.product1Price)}</div>
+                </div>
+              </article>
+              <article class="shop-item" style="background:${cfg.shopCardColor};">
+                <img src="${escapeHtml(cfg.productImage2 || mediaSamples[1])}" alt="product 2" onerror="this.src='${mediaSamples[1]}'" />
+                <div class="shop-body">
+                  <div style="color:${product2NameStyle.color}; font-size:${product2NameStyle.size}px; font-weight:${product2NameStyle.weight}; font-style:${product2NameStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(product2NameStyle.fontFamily)}; text-align:${product2NameStyle.align}; line-height:${product2NameStyle.lineHeight};">${escapeHtml(cfg.product2Name)}</div>
+                  <div style="color:${product2PriceStyle.color}; font-size:${product2PriceStyle.size}px; font-weight:${product2PriceStyle.weight}; font-style:${product2PriceStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(product2PriceStyle.fontFamily)}; text-align:${product2PriceStyle.align}; line-height:${product2PriceStyle.lineHeight};">${escapeHtml(cfg.product2Price)}</div>
+                </div>
+              </article>
+              <article class="shop-item" style="background:${cfg.shopCardColor};">
+                <img src="${escapeHtml(cfg.productImage3 || mediaSamples[2])}" alt="product 3" onerror="this.src='${mediaSamples[2]}'" />
+                <div class="shop-body">
+                  <div style="color:${product3NameStyle.color}; font-size:${product3NameStyle.size}px; font-weight:${product3NameStyle.weight}; font-style:${product3NameStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(product3NameStyle.fontFamily)}; text-align:${product3NameStyle.align}; line-height:${product3NameStyle.lineHeight};">${escapeHtml(cfg.product3Name)}</div>
+                  <div style="color:${product3PriceStyle.color}; font-size:${product3PriceStyle.size}px; font-weight:${product3PriceStyle.weight}; font-style:${product3PriceStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(product3PriceStyle.fontFamily)}; text-align:${product3PriceStyle.align}; line-height:${product3PriceStyle.lineHeight};">${escapeHtml(cfg.product3Price)}</div>
+                </div>
+              </article>
+            </section>
+          </section>
+          ` : `
+          <section class="hero" style="background:${cfg.cardColor};">
+            <div class="hero-media editable-node" data-edit-target="heroImage" tabindex="0">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"heroImage\">Image</button>" : ""}
+              <img src="${escapeHtml(cfg.imageUrl || mediaSamples[0])}" alt="hero" onerror="this.src='${mediaSamples[0]}'" />
+            </div>
+            <div class="hero-content">
+              <div class="editable-node" data-edit-target="heroTitle" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"heroTitle\">Edit</button>" : ""}
+                <h1 class="hero-title" style="color:${titleStyle.color}; font-size:${titleStyle.size}px; font-weight:${titleStyle.weight}; font-style:${titleStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(titleStyle.fontFamily)}; text-align:${titleStyle.align}; line-height:${titleStyle.lineHeight};">
+                  ${escapeHtml(cfg.heroTitle)}
+                </h1>
+              </div>
+              <div class="editable-node" data-edit-target="heroDesc" tabindex="0" style="margin-top:4px;">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"heroDesc\">Edit</button>" : ""}
+                <p class="hero-desc" style="color:${descStyle.color}; font-size:${descStyle.size}px; font-weight:${descStyle.weight}; font-style:${descStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(descStyle.fontFamily)}; text-align:${descStyle.align}; line-height:${descStyle.lineHeight};">${escapeHtml(cfg.heroDesc)}</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="cards">
+            <article class="c-card editable-node" data-edit-target="card1Style" tabindex="0" style="background:${cfg.card1Color || cfg.cardColor}; border-color:${cfg.card1BorderColor || "#dfe6ef"};">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card1Style\">Color</button>" : ""}
+              <div class="editable-node" data-edit-target="card1Title" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card1Title\">Edit</button>" : ""}
+                <strong style="color:${card1TitleStyle.color}; font-size:${card1TitleStyle.size}px; font-weight:${card1TitleStyle.weight}; font-style:${card1TitleStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(card1TitleStyle.fontFamily)}; text-align:${card1TitleStyle.align}; line-height:${card1TitleStyle.lineHeight};">${escapeHtml(cfg.card1Title)}</strong>
+              </div>
+              <div class="editable-node" data-edit-target="card1Desc" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card1Desc\">Edit</button>" : ""}
+                <div style="color:${card1DescStyle.color}; font-size:${card1DescStyle.size}px; font-weight:${card1DescStyle.weight}; font-style:${card1DescStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(card1DescStyle.fontFamily)}; text-align:${card1DescStyle.align}; line-height:${card1DescStyle.lineHeight};">${escapeHtml(cfg.card1Desc)}</div>
+              </div>
+            </article>
+            <article class="c-card editable-node" data-edit-target="card2Style" tabindex="0" style="background:${cfg.card2Color || cfg.cardColor}; border-color:${cfg.card2BorderColor || "#dfe6ef"};">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card2Style\">Color</button>" : ""}
+              <div class="editable-node" data-edit-target="card2Title" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card2Title\">Edit</button>" : ""}
+                <strong style="color:${card2TitleStyle.color}; font-size:${card2TitleStyle.size}px; font-weight:${card2TitleStyle.weight}; font-style:${card2TitleStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(card2TitleStyle.fontFamily)}; text-align:${card2TitleStyle.align}; line-height:${card2TitleStyle.lineHeight};">${escapeHtml(cfg.card2Title)}</strong>
+              </div>
+              <div class="editable-node" data-edit-target="card2Desc" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card2Desc\">Edit</button>" : ""}
+                <div style="color:${card2DescStyle.color}; font-size:${card2DescStyle.size}px; font-weight:${card2DescStyle.weight}; font-style:${card2DescStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(card2DescStyle.fontFamily)}; text-align:${card2DescStyle.align}; line-height:${card2DescStyle.lineHeight};">${escapeHtml(cfg.card2Desc)}</div>
+              </div>
+            </article>
+            <article class="c-card editable-node" data-edit-target="card3Style" tabindex="0" style="background:${cfg.card3Color || cfg.cardColor}; border-color:${cfg.card3BorderColor || `${cfg.accentColor}66`};">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card3Style\">Color</button>" : ""}
+              <div class="editable-node" data-edit-target="card3Title" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card3Title\">Edit</button>" : ""}
+                <strong style="color:${cfg.textStyles.card3Title && cfg.textStyles.card3Title.inherit ? cfg.accentColor : card3TitleStyle.color}; font-size:${card3TitleStyle.size}px; font-weight:${card3TitleStyle.weight}; font-style:${card3TitleStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(card3TitleStyle.fontFamily)}; text-align:${card3TitleStyle.align}; line-height:${card3TitleStyle.lineHeight};">${escapeHtml(cfg.card3Title)}</strong>
+              </div>
+              <div class="editable-node" data-edit-target="card3Desc" tabindex="0">
+                ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"card3Desc\">Edit</button>" : ""}
+                <div style="color:${card3DescStyle.color}; font-size:${card3DescStyle.size}px; font-weight:${card3DescStyle.weight}; font-style:${card3DescStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(card3DescStyle.fontFamily)}; text-align:${card3DescStyle.align}; line-height:${card3DescStyle.lineHeight};">${escapeHtml(cfg.card3Desc)}</div>
+              </div>
+            </article>
+          </section>
+
+          <section class="slider-wrap" style="background:${cfg.sliderBgColor};">
+            <div class="editable-node" data-edit-target="sliderTitle" tabindex="0">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"sliderTitle\">Edit</button>" : ""}
+              <h2 style="margin:0; color:${sliderTitleStyle.color}; font-size:${sliderTitleStyle.size}px; font-weight:${sliderTitleStyle.weight}; font-style:${sliderTitleStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(sliderTitleStyle.fontFamily)}; text-align:${sliderTitleStyle.align}; line-height:${sliderTitleStyle.lineHeight};">${escapeHtml(cfg.sliderTitle)}</h2>
+            </div>
+            <div class="editable-node" data-edit-target="sliderDesc" tabindex="0" style="margin-top:4px;">
+              ${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"sliderDesc\">Edit</button>" : ""}
+              <p style="margin:0; color:${sliderDescStyle.color}; font-size:${sliderDescStyle.size}px; font-weight:${sliderDescStyle.weight}; font-style:${sliderDescStyle.italic ? "italic" : "normal"}; font-family:${cssEscapeFont(sliderDescStyle.fontFamily)}; text-align:${sliderDescStyle.align}; line-height:${sliderDescStyle.lineHeight};">${escapeHtml(cfg.sliderDesc)}</p>
+            </div>
+            <div class="slider-grid">
+              <div class="slide editable-node" data-edit-target="sliderImage1" tabindex="0">${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"sliderImage1\">Image</button>" : ""}<img src="${escapeHtml(cfg.sliderImage1 || mediaSamples[0])}" alt="slide 1" onerror="this.src='${mediaSamples[0]}'" /></div>
+              <div class="slide editable-node" data-edit-target="sliderImage2" tabindex="0">${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"sliderImage2\">Image</button>" : ""}<img src="${escapeHtml(cfg.sliderImage2 || mediaSamples[1])}" alt="slide 2" onerror="this.src='${mediaSamples[1]}'" /></div>
+              <div class="slide editable-node" data-edit-target="sliderImage3" tabindex="0">${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"sliderImage3\">Image</button>" : ""}<img src="${escapeHtml(cfg.sliderImage3 || mediaSamples[2])}" alt="slide 3" onerror="this.src='${mediaSamples[2]}'" /></div>
+            </div>
+          </section>
+          `}
+
+          ${cfg.videoUrl ? `<div class="editable-node" data-edit-target="videoUrl" tabindex="0">${canInlineEdit ? "<button type=\"button\" class=\"inline-edit-btn\" data-edit-target=\"videoUrl\">Video</button>" : ""}<p style="margin:12px 0 0; font-size:12px; color:${cfg.textColor}99;">Video linked: ${escapeHtml(cfg.videoUrl)}</p></div>` : ""}
+        </div>
+      `;
+    }
+
+    function cssEscapeFont(font) {
+      return `"${String(font).replace(/"/g, "")}", sans-serif`;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderAll() {
+      renderSite(el("draftRender"), state.draft);
+      renderSite(el("liveRender"), state.live);
+      bindInlineEditorEvents();
+    }
+
+    function clearActiveEditTargets() {
+      document.querySelectorAll("#draftRender .editable-node.active-edit-target").forEach((node) => {
+        node.classList.remove("active-edit-target");
+      });
+    }
+
+    function activateEditTarget(node) {
+      if (!node) {
+        return;
+      }
+      clearActiveEditTargets();
+      node.classList.add("active-edit-target");
+    }
+
+    function getTextDefaults(target) {
+      return JSON.parse(JSON.stringify(defaultTextStyles[target] || defaultTextStyles.heroDesc));
+    }
+
+    function getCardStyleKeys(target) {
+      if (target === "card1Style") {
+        return { bg: "card1Color", border: "card1BorderColor" };
+      }
+      if (target === "card2Style") {
+        return { bg: "card2Color", border: "card2BorderColor" };
+      }
+      return { bg: "card3Color", border: "card3BorderColor" };
+    }
+
+    function getAssetField(target) {
+      if (target === "heroImage") {
+        return "imageUrl";
+      }
+      if (target === "videoUrl") {
+        return "videoUrl";
+      }
+      return target;
+    }
+
+    function bindInlineEditorEvents() {
+      document.querySelectorAll("#draftRender .editable-node").forEach((node) => {
+        node.addEventListener("pointerenter", () => {
+          if (!state.ui.editMode) {
+            clearActiveEditTargets();
+            return;
+          }
+          activateEditTarget(node);
+        });
+
+        node.addEventListener("pointerleave", () => {
+          node.classList.remove("active-edit-target");
+        });
+
+        node.addEventListener("focusin", () => {
+          if (!state.ui.editMode) {
+            clearActiveEditTargets();
+            return;
+          }
+          activateEditTarget(node);
+        });
+
+        node.addEventListener("focusout", () => {
+          node.classList.remove("active-edit-target");
+        });
+      });
+
+      document.querySelectorAll("#draftRender .inline-edit-btn").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const target = button.dataset.editTarget;
+          if (target === "theme") {
+            openThemeEditor();
+            return;
+          }
+          if (target === "media") {
+            openMediaEditor();
+            return;
+          }
+          if (target === "card1Style" || target === "card2Style" || target === "card3Style") {
+            openCardStyleEditor(target);
+            return;
+          }
+          if (target === "heroImage" || target === "sliderImage1" || target === "sliderImage2" || target === "sliderImage3" || target === "videoUrl") {
+            openAssetEditor(target);
+            return;
+          }
+          openInlineEditor(target);
+        });
+      });
+
+      document.querySelectorAll("#draftRender .editable-node").forEach((node) => {
+        node.addEventListener("click", (event) => {
+          if (event.target.classList.contains("inline-edit-btn")) {
+            return;
+          }
+          if (window.matchMedia("(hover: none)").matches && state.ui.editMode) {
+            const target = node.dataset.editTarget;
+            if (target === "theme") {
+              openThemeEditor();
+              return;
+            }
+            if (target === "media") {
+              openMediaEditor();
+              return;
+            }
+            if (target === "card1Style" || target === "card2Style" || target === "card3Style") {
+              openCardStyleEditor(target);
+              return;
+            }
+            if (target === "heroImage" || target === "sliderImage1" || target === "sliderImage2" || target === "sliderImage3" || target === "videoUrl") {
+              openAssetEditor(target);
+              return;
+            }
+            openInlineEditor(target);
+          }
+        });
+      });
+    }
+
+    function setModalStyleInputsDisabled(disabled) {
+      ["modalColor", "modalFont", "modalSize", "modalWeight", "modalItalic", "modalAlign", "modalLineHeight"].forEach((id) => {
+        el(id).disabled = disabled;
+      });
+    }
+
+    function setEditorMode(mode) {
+      state.ui.editorMode = mode;
+      const isBlock = mode === "block";
+      const isGlobal = mode !== "block";
+      el("blockEditorSection").classList.toggle("hidden", !isBlock);
+      el("globalEditorSection").classList.toggle("hidden", !isGlobal);
+
+      const groups = [
+        "editorThemeGroup",
+        "editorTypographyGroup",
+        "editorCardStyleGroup",
+        "editorImageTargetGroup",
+        "editorContentGroup",
+        "editorTextOverrideGroup",
+        "editorMediaGroup",
+        "editorPresetsGroup"
+      ];
+
+      groups.forEach((id) => {
+        el(id).classList.add("hidden");
+      });
+
+      if (mode === "theme") {
+        el("editorThemeGroup").classList.remove("hidden");
+        el("editorTypographyGroup").classList.remove("hidden");
+      }
+
+      if (mode === "media") {
+        el("editorMediaGroup").classList.remove("hidden");
+      }
+
+      if (mode === "card-style") {
+        el("editorCardStyleGroup").classList.remove("hidden");
+      }
+
+      if (mode === "image-target") {
+        el("editorImageTargetGroup").classList.remove("hidden");
+      }
+
+      if (mode === "presets") {
+        el("editorPresetsGroup").classList.remove("hidden");
+      }
+    }
+
+    function openThemeEditor() {
+      state.ui.activeEditorTarget = null;
+      setEditorMode("theme");
+      syncInputsFromDraft();
+      el("modalTitle").textContent = "Edit Theme";
+      el("modalTargetLabel").textContent = "Target: Theme, Nav, Slider, Shop Colors";
+      el("editorModal").classList.add("open");
+    }
+
+    function openMediaEditor() {
+      state.ui.activeEditorTarget = null;
+      setEditorMode("media");
+      syncInputsFromDraft();
+      el("modalTitle").textContent = "Edit Media";
+      el("modalTargetLabel").textContent = "Target: Hero Image and Video";
+      el("editorModal").classList.add("open");
+    }
+
+    function openCardStyleEditor(target) {
+      state.ui.activeEditorTarget = null;
+      state.ui.activeCardStyleTarget = target;
+      const keys = getCardStyleKeys(target);
+      setEditorMode("card-style");
+      el("cardStyleBg").value = state.draft[keys.bg] || state.draft.cardColor;
+      el("cardStyleBorder").value = state.draft[keys.border] || "#dfe6ef";
+      el("modalTitle").textContent = `Edit ${target === "card1Style" ? "Card 1" : target === "card2Style" ? "Card 2" : "Card 3"} Colors`;
+      el("modalTargetLabel").textContent = "Target: Card Color and Border";
+      el("editorModal").classList.add("open");
+    }
+
+    function openAssetEditor(target) {
+      const field = getAssetField(target);
+      state.ui.activeEditorTarget = null;
+      state.ui.activeAssetField = field;
+      setEditorMode("image-target");
+      el("targetAssetLabel").textContent = field === "videoUrl" ? "Video URL" : "Image URL";
+      el("targetAssetUrl").value = state.draft[field] || "";
+      el("modalTitle").textContent = field === "videoUrl" ? "Edit Video" : "Edit Image";
+      el("modalTargetLabel").textContent = `Target: ${field}`;
+      el("editorModal").classList.add("open");
+    }
+
+    function openPresetsEditor() {
+      state.ui.activeEditorTarget = null;
+      state.ui.activeCardStyleTarget = null;
+      state.ui.activeAssetField = null;
+      setEditorMode("presets");
+      refreshPresetSelect();
+      el("modalTitle").textContent = "Manage Presets";
+      el("modalTargetLabel").textContent = "Target: Saved Draft Presets";
+      el("editorModal").classList.add("open");
+    }
+
+    function openInlineEditor(target) {
+      if (!target || !state.draft.textStyles[target]) {
+        return;
+      }
+      setEditorMode("block");
+      state.ui.activeEditorTarget = target;
+      const style = state.draft.textStyles[target];
+      const label = editableTextLabels[target] || target;
+      el("modalTargetLabel").textContent = `Target: ${label}`;
+      el("modalTitle").textContent = `Edit ${label}`;
+      el("modalText").value = state.draft[target];
+      el("modalInherit").value = String(style.inherit);
+      el("modalColor").value = style.color;
+      el("modalFont").value = style.fontFamily;
+      el("modalSize").value = style.size;
+      el("modalWeight").value = String(style.weight);
+      el("modalItalic").value = String(style.italic);
+      el("modalAlign").value = style.align;
+      el("modalLineHeight").value = style.lineHeight;
+      setModalStyleInputsDisabled(style.inherit);
+      el("editorModal").classList.add("open");
+    }
+
+    function closeInlineEditor() {
+      state.ui.activeEditorTarget = null;
+      state.ui.activeCardStyleTarget = null;
+      state.ui.activeAssetField = null;
+      el("editorModal").classList.remove("open");
+    }
+
+    function applyModalEditorChanges() {
+      const target = state.ui.activeEditorTarget;
+      if (!target) {
+        return;
+      }
+      state.draft[target] = el("modalText").value;
+      state.draft.textStyles[target].inherit = el("modalInherit").value === "true";
+      state.draft.textStyles[target].color = el("modalColor").value;
+      state.draft.textStyles[target].fontFamily = el("modalFont").value;
+      state.draft.textStyles[target].size = Number(el("modalSize").value || 16);
+      state.draft.textStyles[target].weight = Number(el("modalWeight").value || 400);
+      state.draft.textStyles[target].italic = el("modalItalic").value === "true";
+      state.draft.textStyles[target].align = el("modalAlign").value;
+      state.draft.textStyles[target].lineHeight = Number(el("modalLineHeight").value || 1.4);
+      syncInputsFromDraft();
+      renderAll();
+      closeInlineEditor();
+      log(`Updated ${editableTextLabels[target] || target} via inline editor.`);
+    }
+
+    function initMediaLibrary() {
+      const wrap = el("mediaLibrary");
+      wrap.innerHTML = "";
+      mediaSamples.forEach((url) => {
+        const thumb = document.createElement("div");
+        thumb.className = "media-thumb";
+        thumb.dataset.url = url;
+        thumb.innerHTML = `<img src="${url}" alt="sample"/>`;
+        thumb.addEventListener("click", () => {
+          state.draft.imageUrl = url;
+          el("imageUrl").value = url;
+          markActiveMedia();
+          renderAll();
+          log("Selected image from library.");
+        });
+        wrap.appendChild(thumb);
+      });
+      markActiveMedia();
+    }
+
+    function markActiveMedia() {
+      document.querySelectorAll(".media-thumb").forEach((node) => {
+        node.classList.toggle("active", node.dataset.url === state.draft.imageUrl);
+      });
+    }
+
+    function savePresetList(data) {
+      localStorage.setItem("adminStudioPresets", JSON.stringify(data));
+    }
+
+    function getPresetList() {
+      const raw = localStorage.getItem("adminStudioPresets");
+      if (!raw) return {};
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return {};
+      }
+    }
+
+    function ensureDefaultPreset() {
+      const presets = getPresetList();
+      const currentDefault = presets[defaultPresetName] ? normalizeDraftConfig(presets[defaultPresetName]) : JSON.parse(JSON.stringify(defaultPreset));
+      presets[defaultPresetName] = currentDefault;
+      savePresetList(presets);
+    }
+
+    function refreshPresetSelect() {
+      const presets = getPresetList();
+      const select = el("presetSelect");
+      select.innerHTML = "";
+      const names = Object.keys(presets);
+      if (!names.length) {
+        const none = document.createElement("option");
+        none.value = "";
+        none.textContent = "No presets yet";
+        select.appendChild(none);
+        return;
+      }
+      names.forEach((name) => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+      });
+    }
+
+    function bindEvents() {
+      inputIds.forEach((id) => {
+        const target = el(id);
+        if (!target) {
+          return;
+        }
+        target.addEventListener("input", () => {
+          syncDraftFromInputs();
+          renderAll();
+        });
+      });
+
+      Object.entries(textStyleInputMap).forEach(([styleKey, map]) => {
+        Object.values(map).forEach((fieldId) => {
+          const target = el(fieldId);
+          if (!target) {
+            return;
+          }
+          target.addEventListener("input", () => {
+            syncDraftFromInputs();
+            setStyleInputsDisabled(styleKey, state.draft.textStyles[styleKey].inherit);
+            renderAll();
+          });
+        });
+      });
+
+      el("titleBold").addEventListener("click", () => {
+        state.draft.titleBold = !state.draft.titleBold;
+        el("titleBold").classList.toggle("active", state.draft.titleBold);
+        renderAll();
+      });
+
+      el("toggleEditMode").addEventListener("click", () => {
+        state.ui.editMode = !state.ui.editMode;
+        el("toggleEditMode").textContent = `Edit Mode: ${state.ui.editMode ? "ON" : "OFF"}`;
+        renderAll();
+        log(`Edit mode ${state.ui.editMode ? "enabled" : "disabled"}.`);
+      });
+
+      el("viewHome").addEventListener("click", () => {
+        state.ui.previewPage = "home";
+        renderAll();
+        log("Switched preview to Home components.");
+      });
+
+      el("viewShop").addEventListener("click", () => {
+        state.ui.previewPage = "shop";
+        renderAll();
+        log("Switched preview to Shop components.");
+      });
+
+      el("openPresetsEditor").addEventListener("click", () => {
+        openPresetsEditor();
+      });
+
+      el("titleItalic").addEventListener("click", () => {
+        state.draft.titleItalic = !state.draft.titleItalic;
+        el("titleItalic").classList.toggle("active", state.draft.titleItalic);
+        renderAll();
+      });
+
+      el("applyImageUrl").addEventListener("click", () => {
+        syncDraftFromInputs();
+        markActiveMedia();
+        renderAll();
+        log("Applied media fields to draft.");
+      });
+
+      el("applyCardStyle").addEventListener("click", () => {
+        const target = state.ui.activeCardStyleTarget;
+        if (!target) {
+          return;
+        }
+        const keys = getCardStyleKeys(target);
+        state.draft[keys.bg] = el("cardStyleBg").value;
+        state.draft[keys.border] = el("cardStyleBorder").value;
+        renderAll();
+        closeInlineEditor();
+        log(`Applied color changes to ${target}.`);
+      });
+
+      el("applyTargetAsset").addEventListener("click", () => {
+        const field = state.ui.activeAssetField;
+        if (!field) {
+          return;
+        }
+        state.draft[field] = el("targetAssetUrl").value;
+        syncInputsFromDraft();
+        renderAll();
+        closeInlineEditor();
+        log(`Updated asset for ${field}.`);
+      });
+
+      el("saveDraft").addEventListener("click", () => {
+        syncDraftFromInputs();
+        localStorage.setItem("adminStudioDraft", JSON.stringify(state.draft));
+        el("draftTag").textContent = "Draft saved";
+        log("Draft saved locally.");
+      });
+
+      el("previewDraft").addEventListener("click", () => {
+        syncDraftFromInputs();
+        renderAll();
+        el("draftTag").textContent = "Preview updated";
+        log("Preview refreshed from draft.");
+      });
+
+      el("publishLive").addEventListener("click", () => {
+        syncDraftFromInputs();
+        state.previousLive = JSON.parse(JSON.stringify(state.live));
+        state.live = JSON.parse(JSON.stringify(state.draft));
+        renderAll();
+        el("liveTag").textContent = "Published now";
+        log("Draft published to live client.");
+      });
+
+      el("rollback").addEventListener("click", () => {
+        if (!state.previousLive) {
+          log("Rollback skipped: no previous version.");
+          return;
+        }
+        state.live = JSON.parse(JSON.stringify(state.previousLive));
+        renderAll();
+        el("liveTag").textContent = "Rolled back";
+        log("Live client rolled back to previous version.");
+      });
+
+      el("savePreset").addEventListener("click", () => {
+        syncDraftFromInputs();
+        const name = el("presetName").value.trim();
+        if (!name) {
+          log("Preset save skipped: preset name is required.");
+          return;
+        }
+        if (name.toLowerCase() === defaultPresetName.toLowerCase()) {
+          log("Preset save skipped: Default is a protected preset.");
+          return;
+        }
+        const presets = getPresetList();
+        presets[name] = JSON.parse(JSON.stringify(state.draft));
+        savePresetList(presets);
+        refreshPresetSelect();
+        el("presetSelect").value = name;
+        log(`Preset \"${name}\" saved.`);
+      });
+
+      el("loadPreset").addEventListener("click", () => {
+        const name = el("presetSelect").value;
+        const presets = getPresetList();
+        if (!name || !presets[name]) {
+          log("Preset load skipped: select a preset first.");
+          return;
+        }
+        state.draft = normalizeDraftConfig(JSON.parse(JSON.stringify(presets[name])));
+        syncInputsFromDraft();
+        renderAll();
+        log(`Preset \"${name}\" loaded into draft.`);
+      });
+
+      el("resetHeroTitleStyle").addEventListener("click", () => {
+        state.draft.textStyles.heroTitle = getTextDefaults("heroTitle");
+        syncTextStyleInputsFromDraft();
+        renderAll();
+        log("Hero title style reset to theme defaults.");
+      });
+
+      el("resetHeroDescStyle").addEventListener("click", () => {
+        state.draft.textStyles.heroDesc = getTextDefaults("heroDesc");
+        syncTextStyleInputsFromDraft();
+        renderAll();
+        log("Hero description style reset to theme defaults.");
+      });
+
+      el("closeEditor").addEventListener("click", closeInlineEditor);
+      el("editorModal").addEventListener("click", (event) => {
+        if (event.target.id === "editorModal") {
+          closeInlineEditor();
+        }
+      });
+      el("modalInherit").addEventListener("input", () => {
+        setModalStyleInputsDisabled(el("modalInherit").value === "true");
+      });
+      el("modalReset").addEventListener("click", () => {
+        if (!state.ui.activeEditorTarget) {
+          return;
+        }
+        const defaults = getTextDefaults(state.ui.activeEditorTarget);
+        el("modalInherit").value = String(defaults.inherit);
+        el("modalColor").value = defaults.color;
+        el("modalFont").value = defaults.fontFamily;
+        el("modalSize").value = defaults.size;
+        el("modalWeight").value = String(defaults.weight);
+        el("modalItalic").value = String(defaults.italic);
+        el("modalAlign").value = defaults.align;
+        el("modalLineHeight").value = defaults.lineHeight;
+        setModalStyleInputsDisabled(defaults.inherit);
+      });
+      el("modalSave").addEventListener("click", applyModalEditorChanges);
+    }
+
+    function normalizeDraftConfig(draft) {
+      const normalized = { ...draft };
+      Object.entries(defaultDraftFields).forEach(([key, value]) => {
+        if (normalized[key] === undefined || normalized[key] === null) {
+          normalized[key] = value;
+        }
+      });
+      Object.entries(defaultTextValues).forEach(([key, value]) => {
+        if (typeof normalized[key] !== "string") {
+          normalized[key] = value;
+        }
+      });
+      if (!normalized.textStyles) {
+        normalized.textStyles = {};
+      }
+      Object.keys(defaultTextStyles).forEach((key) => {
+        if (!normalized.textStyles[key]) {
+          normalized.textStyles[key] = getTextDefaults(key);
+        }
+      });
+      return normalized;
+    }
+
+    function boot() {
+      ensureDefaultPreset();
+
+      const draftRaw = localStorage.getItem("adminStudioDraft");
+      if (draftRaw) {
+        try {
+          const parsed = JSON.parse(draftRaw);
+          state.draft = normalizeDraftConfig({ ...state.draft, ...parsed });
+        } catch {
+          log("Could not load saved draft. Using defaults.");
+        }
+      }
+
+      syncInputsFromDraft();
+      initMediaLibrary();
+      refreshPresetSelect();
+      bindEvents();
+      renderAll();
+      log("Visualizer ready. Edit draft and publish when satisfied.");
+    }
+
+    boot();
+  </script>
+</body>
+</html>
