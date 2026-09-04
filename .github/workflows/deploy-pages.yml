@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,23 +32,43 @@ jobs:
 
       - name: Build Design1
         working-directory: Designs/Design1
-        run: npm ci && npm run build -- --outDir ../../_site/Design1
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Build Design2
+      - name: Bundle Design1
+        working-directory: Designs/Design1
+        run: npm run build -- --outDir ../../_site/Design1
+
+      - name: Install Design2
         working-directory: Designs/Design2
-        run: npm ci && npm run build -- --outDir ../../_site/Design2
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Build Design3
+      - name: Bundle Design2
+        working-directory: Designs/Design2
+        run: npm run build -- --outDir ../../_site/Design2
+
+      - name: Install Design3
         working-directory: Designs/Design3
-        run: npm ci && npm run build -- --outDir ../../_site/Design3
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Build Design4
+      - name: Bundle Design3
+        working-directory: Designs/Design3
+        run: npm run build -- --outDir ../../_site/Design3
+
+      - name: Install Design4
         working-directory: Designs/Design4
-        run: npm ci && npm run build -- --outDir ../../_site/Design4
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Build Design5
+      - name: Bundle Design4
+        working-directory: Designs/Design4
+        run: npm run build -- --outDir ../../_site/Design4
+
+      - name: Install Design5
         working-directory: Designs/Design5
-        run: npm ci && npm run build -- --outDir ../../_site/Design5
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Bundle Design5
+        working-directory: Designs/Design5
+        run: npm run build -- --outDir ../../_site/Design5
 
       - name: Add default redirect
         run: cp index.html _site/index.html
