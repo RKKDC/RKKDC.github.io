@@ -1,0 +1,349 @@
+.app-shell,
+body {
+  --navy: #0d0d0d;
+  --navy-2: #1d1d1d;
+  --paper: #eeeeeb;
+  --ink: #1a1a1a;
+  --gold: #f2c94c;
+  --red: #b51f2a;
+  --muted: #999999;
+  --line: rgba(255,255,255,.08);
+  background-color: var(--navy);
+}
+
+.site-header,
+.home-band,
+.site-footer {
+  background-color: #171717;
+}
+
+body,
+.app-shell,
+main {
+  color: #f4efe8;
+}
+
+.home-band,
+.service-card,
+.slide-dark,
+.news-layout,
+.jobs-section,
+.contact-layout,
+.donation-panel {
+  background-color: #232323;
+}
+
+.tease-list,
+.jobs-list,
+.contact-form,
+.donation-form,
+.section-head,
+.post,
+.site-footer,
+.footer-bottom {
+  border-color: rgba(255,255,255,.08);
+}
+
+.slide-light {
+  background-color: #ebebe7;
+}
+
+.slide-red {
+  background-color: #7c1d22;
+}
+
+.map-card {
+  background-color: #2d2d2d;
+}
+
+.hero-content p,
+.page-intro > p,
+.statement-copy,
+.card-body p,
+.careers-intro p,
+.contact-info p,
+.donation-panel > div:first-child p {
+  color: #b6b6b4;
+}
+
+.hero-meta,
+.blend-control,
+.footer-grid a:not(.brand),
+.footer-grid p,
+.footer-bottom {
+  color: #d1d1cf;
+}
+
+.hero:after {
+  background: linear-gradient(90deg, rgba(23, 23, 23, .8), rgba(23, 23, 23, .18) 68%, rgba(23, 23, 23, .45)), linear-gradient(0deg, rgba(23, 23, 23, .45), transparent 55%);
+}
+
+/* Keep every non-flag surface in the same tactical palette. */
+.home-band,
+.marquee-section {
+  background: #1b1b1b !important;
+}
+
+.service-card,
+.modal,
+.modal-content,
+.job-modal {
+  background: #272727 !important;
+  color: #f4efe8 !important;
+}
+
+.slide-dark {
+  background: radial-gradient(circle at 80% 25%, #3a3a3a, #171717 48%) !important;
+}
+
+.slide-red {
+  background: #7d1f25 !important;
+}
+
+.map-card {
+  background: #2f2f2f !important;
+}
+
+.avatar,
+.site-header nav.nav-open {
+  background: #262626 !important;
+}
+
+.site-footer {
+  background: #111111 !important;
+}
+
+.hero-grid {
+  inset: 0;
+  grid-template-columns: repeat(30, 1fr);
+  grid-template-rows: repeat(30, 1fr);
+  gap: 0;
+  opacity: .24;
+  transform: none;
+  filter: blur(.35px);
+}
+
+.hero-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=500&q=70'),
+    url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=500&q=70');
+  background-size: calc(25% - 5px) calc(33.333% - 5px);
+  background-position: 0 0, 25% 0, 50% 0, 75% 0, 0 50%, 25% 50%, 50% 50%, 75% 50%, 0 100%, 25% 100%, 50% 100%, 75% 100%;
+  background-repeat: no-repeat;
+}
+
+.hero-grid::before {
+  background-image:
+    url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=400&q=70'),
+    url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=70');
+  background-size: calc(20% - 4px) calc(25% - 4px);
+  background-position: 0 0, 20% 0, 40% 0, 60% 0, 80% 0, 0 33.333%, 20% 33.333%, 40% 33.333%, 60% 33.333%, 80% 33.333%, 0 66.666%, 20% 66.666%, 40% 66.666%, 60% 66.666%, 80% 66.666%, 0 100%, 20% 100%, 40% 100%, 60% 100%, 80% 100%;
+}
+
+.hero-grid::before {
+  content: none;
+  background: none;
+}
+
+.tile-0 {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.hero-tile {
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 2;
+  filter: saturate(.3) contrast(.82) brightness(.62);
+  animation: mosaic-reveal .38s cubic-bezier(.2, .75, .3, 1) both;
+  animation-delay: var(--tile-row-delay, 0s);
+}
+
+.flag-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Crect width='100' height='25' fill='%23174f8c'/%3E%3Crect y='25' width='100' height='25' fill='%23b63f45'/%3E%3Cpath d='M0 0L50 25 0 50Z' fill='%23f5f2e8'/%3E%3Cg fill='%23e1b95e'%3E%3Ccircle cx='14' cy='25' r='3.2'/%3E%3Cpath d='M14 18l.9 4.2 3.3-2.7-2.2 3.8 4.2.2-4.1 1.1 2.2 3.6-3.4-2.5-.8 4.3-.9-4.3-3.4 2.5 2.2-3.6-4.1-1.1 4.2-.2-2.2-3.8 3.3 2.7Z'/%3E%3Cpath d='M7 6l.8 2.2 2.2.2-1.7 1.4.5 2.2L7 10.8l-1.8 1.2.5-2.2L4 8.4l2.2-.2Z'/%3E%3Cpath d='M7 38l.8 2.2 2.2.2-1.7 1.4.5 2.2L7 42.8l-1.8 1.2.5-2.2L4 40.4l2.2-.2Z'/%3E%3Cpath d='M34 22l.8 2.2 2.2.2-1.7 1.4.5 2.2L34 26.8l-1.8 1.2.5-2.2-1.7-1.4 2.2-.2Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  mix-blend-mode: normal;
+  opacity: .26;
+}
+
+.flag-overlay::before {
+  content: none;
+}
+
+.flag-overlay::after {
+  content: none;
+}
+
+.flag-overlay.blend-multiply { mix-blend-mode: multiply; }
+
+.flag-overlay {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/99/Flag_of_the_Philippines.svg');
+  background-size: cover;
+  background-position: center;
+  opacity: .16;
+  clip-path: inset(0 0 100% 0);
+  animation: flag-reveal 7s cubic-bezier(.2, .75, .3, 1) .6s both;
+}
+
+@media (max-width: 800px) {
+  .hero-grid {
+    grid-template-columns: repeat(30, 1fr);
+    grid-template-rows: repeat(30, 1fr);
+  }
+}
+
+.hero:after {
+  background: linear-gradient(90deg, rgba(11, 15, 25, .24), rgba(11, 15, 25, .04) 68%, rgba(11, 15, 25, .14)), linear-gradient(0deg, rgba(11, 15, 25, .14), transparent 55%);
+}
+
+.flag-overlay {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/99/Flag_of_the_Philippines.svg');
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: normal;
+  opacity: .16;
+  animation: flag-reveal 7s cubic-bezier(.2, .75, .3, 1) .6s both;
+}
+
+.hero:after {
+  background: linear-gradient(90deg, rgba(13, 13, 13, .62), rgba(13, 13, 13, .12) 68%, rgba(13, 13, 13, .42)), linear-gradient(0deg, rgba(13, 13, 13, .52), transparent 55%);
+}
+
+.hero-tile {
+  filter: saturate(.42) contrast(.88) brightness(.82);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -12% 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 0%, transparent 47%, rgba(225, 185, 94, .08) 48%, rgba(245, 242, 232, .72) 50%, rgba(225, 185, 94, .12) 52%, transparent 54%);
+  animation: flag-scanner-pass 9s cubic-bezier(.35, .05, .25, 1) -1.2s infinite;
+}
+
+@keyframes mosaic-reveal {
+  from { opacity: 0; transform: scale(.72); filter: saturate(.05) contrast(.5) brightness(.35); }
+  to { opacity: 1; transform: scale(1); filter: saturate(.3) contrast(.82) brightness(.62); }
+}
+
+@keyframes flag-scanner-pass {
+  from { transform: translateY(-48%); opacity: 0; }
+  12% { opacity: 1; }
+  82% { opacity: 1; }
+  to { transform: translateY(48%); opacity: 0; }
+}
+
+@keyframes flag-reveal {
+  from { opacity: 0; clip-path: inset(0 0 100% 0); }
+  to { opacity: .16; clip-path: inset(0); }
+}
+
+.brand-mark img {
+  width: 78%;
+  height: 78%;
+}
+
+.news-layout {
+  padding-top: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.page-intro:has(+ .careers-intro),
+.careers-intro,
+.jobs-section {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.careers-intro,
+.jobs-section {
+  padding-top: 24px;
+}
+
+.contact-layout {
+  padding-top: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.marquee-section {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  margin: 28px 0;
+  transform: translateY(60px) rotate(-2deg) scale(1.03);
+  transform-origin: center;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  border-bottom: 1px solid var(--line);
+  animation-duration: 35s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee-track-left {
+  animation-name: marquee-left;
+}
+
+.marquee-track-right {
+  animation-name: marquee-right;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
