@@ -1,0 +1,83 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install Apex lobby dependencies",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"install"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Apex lobby production bundle",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"run",
+				"build"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Apex lobby development server",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"run",
+				"dev",
+				"--",
+				"--host",
+				"0.0.0.0"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Download Soliman Security logo",
+			"type": "shell",
+			"command": "curl.exe",
+			"args": [
+				"-L",
+				"https://www.soliman-security.com/img/soliman100x122.svg",
+				"-o",
+				"public/soliman-logo.svg"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Download source client logos",
+			"type": "shell",
+			"command": "curl.exe",
+			"args": [
+				"-L",
+				"https://www.soliman-security.com/img/client/bpi.jpg",
+				"-o",
+				"public/clients/bpi.jpg",
+				"https://www.soliman-security.com/img/client/convergys.png",
+				"-o",
+				"public/clients/convergys.png",
+				"https://www.soliman-security.com/img/client/standarcharter.png",
+				"-o",
+				"public/clients/standard-chartered.png",
+				"https://www.soliman-security.com/img/client/Unilever.png",
+				"-o",
+				"public/clients/unilever.png",
+				"https://www.soliman-security.com/img/client/coca-cola.png",
+				"-o",
+				"public/clients/coca-cola.png",
+				"https://www.soliman-security.com/img/client/worldbank.png",
+				"-o",
+				"public/clients/world-bank.png",
+				"https://www.soliman-security.com/img/client/hsbc.png",
+				"-o",
+				"public/clients/hsbc.png",
+				"https://www.soliman-security.com/img/client/del-monte.png",
+				"-o",
+				"public/clients/del-monte.png"
+			],
+			"problemMatcher": []
+		}
+	]
+}
